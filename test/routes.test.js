@@ -33,7 +33,7 @@ test('homepage retrieves every page with custom properties and escapes values', 
     hubspot.get = async (url, options) => {
         calls.push({ url, params: options.params });
         return { data: { results: [{ properties: {
-            item_name: calls.length === 1 ? '<script>alert(1)</script>' : 'Soup', price: '0', category: 'Starter'
+            name: calls.length === 1 ? '<script>alert(1)</script>' : 'Soup', price: '0', category: 'Starter'
         } }], ...(calls.length === 1 ? { paging: { next: { after: '101' } } } : {}) } };
     };
     const response = await fetch(base);
@@ -41,7 +41,7 @@ test('homepage retrieves every page with custom properties and escapes values', 
     assert.equal(response.status, 200);
     assert.equal(calls.length, 2);
     assert.equal(calls[1].params.after, '101');
-    assert.equal(calls[0].params.properties, 'item_name,price,category');
+    assert.equal(calls[0].params.properties, 'name,price,category');
     assert.equal(calls[0].url, '/crm/v3/objects/2-254835852');
     assert.ok(html.includes('&lt;script&gt;'));
     assert.ok(html.includes('Soup'));
@@ -58,7 +58,7 @@ test('valid form creates the expected HubSpot record then redirects', async () =
     assert.equal(response.status, 303);
     assert.equal(response.headers.get('location'), '/');
     assert.deepEqual(captured, { url: '/crm/v3/objects/2-254835852',
-        payload: { properties: { item_name: 'Soup', price: '12.50', category: 'Starter' } } });
+        payload: { properties: { name: 'Soup', price: '12.50', category: 'Starter' } } });
 });
 
 test('invalid prices never create a record and preserve entered values', async () => {

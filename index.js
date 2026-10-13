@@ -10,6 +10,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false, limit: '10kb' }));
 
 const fields = ['item_name', 'price', 'category'];
+const crmProperties = ['name', 'price', 'category'];
 const objectType = process.env.HUBSPOT_OBJECT_TYPE || '2-254835852';
 const hubspot = axios.create({
     baseURL: 'https://api.hubapi.com',
@@ -48,7 +49,9 @@ app.post('/update-cobj', async (req, res, next) => {
     }
     try {
         requireToken();
-        await hubspot.post(objectPath, { properties: values });
+        await hubspot.post(objectPath, {
+            properties: { name: values.item_name, price: values.price, category: values.category }
+        });
         res.redirect(303, '/');
     } catch (error) {
         next(error);
@@ -62,7 +65,7 @@ app.get('/', async (req, res, next) => {
         let after;
         do {
             const response = await hubspot.get(objectPath, {
-                params: { properties: fields.join(','), limit: 100, after }
+                params: { properties: crmProperties.join(','), limit: 100, after }
             });
             data.push(...response.data.results);
             after = response.data.paging?.next?.after;

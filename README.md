@@ -28,7 +28,7 @@ Open http://localhost:3000. Choose **Add to this table**, complete the three fie
 
 | Internal property name | HubSpot type | Form field |
 | --- | --- | --- |
-| `item_name` | text | Item name |
+| `name` | text | Item name (form input: `item_name`) |
 | `price` | number | Non-negative price, up to two decimals |
 | `category` | text | Category |
 
