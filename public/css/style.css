@@ -1,58 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-
-body, * {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
+﻿:root {
+    font-family: system-ui, sans-serif;
+    color: #243746;
+    background: #f5f8fa;
+    line-height: 1.5;
 }
-
-h1 {
-    margin: 1rem;
+* { box-sizing: border-box; }
+body { margin: 0; }
+.container { max-width: 1000px; margin: 3rem auto; padding: 0 1.5rem; }
+h1 { font-size: 2rem; margin: 1.5rem 0; }
+a { color: #006b80; }
+.button, button {
+    display: inline-block;
+    background: #007a8c;
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    padding: .75rem 1rem;
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
 }
-
-.cards {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-}
-
-.card {
-    flex-basis: 31%;
-    margin: 1rem 0.4rem;
-    padding: 1rem 0.4rem 2.5rem 0.4rem;
-    border: solid 1px lightgrey;
-    border-radius: 15px;
-    box-shadow: 3px 2px 6px lightgrey;
-}
-
-.card__email {
-    font-size: 1rem;
-}
-
+.button:hover, button:hover { background: #005765; }
+.table-wrapper { overflow-x: auto; background: white; border: 1px solid #cbd6df; border-radius: 6px; }
+table { width: 100%; border-collapse: collapse; }
+caption { text-align: left; padding: 1rem; font-weight: 600; }
+th, td { text-align: left; padding: 1rem; border-top: 1px solid #cbd6df; }
+th { background: #eaf0f6; }
+tbody tr:nth-child(even) { background: #f8fafc; }
 .form-wrapper {
-    font-size: 18px;
-    max-width: 768px;
-    margin: 2rem auto;
-    padding: 2rem;
-    border: solid 1px lightgrey;
-    border-radius: 15px;
-    box-shadow: 3px 2px 6px lightgrey;
+    max-width: 600px;
+    padding: 1.5rem;
+    background: white;
+    border: 1px solid #cbd6df;
+    border-radius: 6px;
 }
-
-label, input {
-    margin-top: 5px;
-    display: block;
-    font-size: inherit;
-}
-
-input[type="text"] {
-    padding: .25rem;
-}
-
-input[type="submit"] {
-    background-color: lightgrey;
-    border: none;
-    padding: .375rem 1rem;
-    margin-top: 10px;
+label { display: block; margin-bottom: .4rem; font-weight: 600; }
+input { width: 100%; font: inherit; padding: .7rem; margin-bottom: 1.25rem; border: 1px solid #879baa; border-radius: 4px; }
+:focus-visible { outline: 3px solid #007a8c; outline-offset: 3px; }
+.error { background: #fff0ed; color: #8f2512; border-left: 4px solid #bf391e; padding: 1rem; }
+@media (max-width: 600px) {
+    .container { margin: 1.5rem auto; padding: 0 1rem; }
+    h1 { font-size: 1.6rem; }
+    th, td { padding: .65rem; }
 }
