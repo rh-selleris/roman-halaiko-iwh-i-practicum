@@ -1,0 +1,22 @@
+extends layout
+
+block content
+    a.button(href="/update-cobj") Add to this table
+    h1 Restaurant menu items
+    .table-wrapper
+        table
+            caption Restaurant menu items from HubSpot
+            thead
+                tr
+                    th(scope="col") Item name
+                    th(scope="col") Price
+                    th(scope="col") Category
+            tbody
+                each item in data
+                    tr
+                        td= item.properties.item_name || '—'
+                        td= item.properties.price ?? '—'
+                        td= item.properties.category || '—'
+                else
+                    tr
+                        td(colspan="3") No menu items yet. Add your first item using the link above.

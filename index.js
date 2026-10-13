@@ -33,6 +33,24 @@ app.get('/update-cobj', (req, res) => {
     });
 });
 
+app.get('/', async (req, res, next) => {
+    try {
+        requireToken();
+        const data = [];
+        let after;
+        do {
+            const response = await hubspot.get(objectPath, {
+                params: { properties: fields.join(','), limit: 100, after }
+            });
+            data.push(...response.data.results);
+            after = response.data.paging?.next?.after;
+        } while (after !== undefined && after !== null);
+        res.render('homepage', { title: 'Restaurant Menu Items | Integrating With HubSpot I Practicum', data });
+    } catch (error) {
+        next(error);
+    }
+});
+
 if (require.main === module) {
     app.listen(process.env.PORT || 3000, () => console.log('Listening on http://localhost:' + (process.env.PORT || 3000)));
 }
