@@ -15,7 +15,7 @@ block content
                 each item in data
                     tr
                         td= item.properties.item_name || '—'
-                        td= item.properties.price ?? '—'
+                        td= item.properties.price != null ? item.properties.price : '—'
                         td= item.properties.category || '—'
                 else
                     tr
