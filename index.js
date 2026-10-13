@@ -73,6 +73,24 @@ app.get('/', async (req, res, next) => {
     }
 });
 
+app.use((error, req, res, next) => {
+    const upstreamStatus = error.response?.status;
+    // Do not log Axios errors: they contain the Authorization header.
+    console.error('Request failed:', upstreamStatus || error.status || 500);
+    let message = 'Unable to complete the request. Please try again.';
+    if (error.status === 503) message = error.message;
+    else if (upstreamStatus === 401 || upstreamStatus === 403) {
+        message = 'Check your local HubSpot token and custom object read/write permissions.';
+    } else if (upstreamStatus === 400 || upstreamStatus === 404) {
+        message = 'Check the HubSpot object ID and the internal property names in your test account.';
+    } else if (upstreamStatus === 429) {
+        message = 'HubSpot is receiving too many requests. Please try again shortly.';
+    }
+    res.status(error.status || 502).render('error', {
+        title: 'Request error | Integrating With HubSpot I Practicum', message
+    });
+});
+
 if (require.main === module) {
     app.listen(process.env.PORT || 3000, () => console.log('Listening on http://localhost:' + (process.env.PORT || 3000)));
 }

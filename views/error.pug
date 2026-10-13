@@ -1,0 +1,9 @@
+extends layout
+
+block content
+    h1 Unable to complete the request
+    p.error(role="alert")= message
+    p If you submitted a form and the request timed out, check the table before submitting again.
+    a(href="/") Return to the homepage
+    p
+        a(href="/update-cobj") Add a menu item
