@@ -9,6 +9,57 @@ To read the full directions, please go to the [practicum instructions](https://a
 - [Custom object list view](https://app-eu1.hubspot.com/contacts/149535349/objects/2-254835852/views/all/list)
 - [Custom object configuration supplied for the practicum](https://app-eu1.hubspot.com/data-model/149535349/?urlRef=%2Fdata-model-intro%2F149535349%2F&tab=properties&view=table&objectsSearch=REsta&fromObjectTypeId=2-254835852)
 
+### Run locally
+
+Requires Node.js 18 or later. Use a private app from developer test account **149535349** with permission to read and write custom object records.
+
+```powershell
+npm install
+Copy-Item .env.example .env
+```
+
+Open `.env` locally and set `HUBSPOT_PRIVATE_APP_TOKEN` to your private app token. Keep the default `HUBSPOT_OBJECT_TYPE=2-254835852`. Never commit `.env` or paste your token into source code.
+
+```powershell
+npm start
+```
+
+Open http://localhost:3000. Choose **Add to this table**, complete the three fields, and submit. The application creates a new record and redirects to the homepage, which retrieves all pages of records from HubSpot.
+
+| Internal property name | HubSpot type | Form field |
+| --- | --- | --- |
+| `item_name` | text | Item name |
+| `price` | number | Non-negative price, up to two decimals |
+| `category` | text | Category |
+
+The form creates records; it does not edit existing ones. Prices are shown as stored because the object has no currency property.
+
+### Structure
+
+```text
+public/css/style.css
+views/contacts.pug       # Original sample, reference only
+views/layout.pug
+views/homepage.pug
+views/updates.pug
+views/error.pug
+test/routes.test.js
+.env.example
+.gitignore
+index.js
+package.json
+package-lock.json
+README.md
+```
+
+### Verification
+
+Run `npm test`. Six automated route tests use simulated HubSpot responses to verify form rendering, pagination, escaped table values, record creation and redirect, invalid prices, missing credentials, API errors, and an empty table. They do not create records in HubSpot.
+
+For a live check, configure `.env`, submit one menu item, and confirm the same values appear in both the homepage and the linked HubSpot list. Live account access and record creation have not been verified without a token.
+
+API reference: [HubSpot custom object creation](https://developers.hubspot.de/docs/api-reference/crm-custom-objects-v3/basic/post-crm-v3-objects-objectType) and [object listing with properties and pagination](https://developers.hubspot.de/docs/api-reference/crm-objects-v3/basic/get-crm-v3-objects-objectType).
+
 ___
 ## Tips:
 - Commit to your repository often. Even if you make small tweaks to your code, it’s best to be committing to your repository frequently.
