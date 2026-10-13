@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    a(href="/") Return to the homepage
+    h1 Add a restaurant menu item
+    if error
+        p.error(role="alert")= error
+    form.form-wrapper(action="/update-cobj", method="post")
+        label(for="item_name") Item name
+        input#item_name(type="text", name="item_name", value=values.item_name, required, maxlength="200")
+        label(for="price") Price
+        input#price(type="number", name="price", value=values.price, required, min="0", step="0.01")
+        label(for="category") Category
+        input#category(type="text", name="category", value=values.category, required, maxlength="200")
+        button(type="submit") Create menu item

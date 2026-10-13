@@ -33,6 +33,28 @@ app.get('/update-cobj', (req, res) => {
     });
 });
 
+app.post('/update-cobj', async (req, res, next) => {
+    const values = Object.fromEntries(fields.map(field => [field,
+        typeof req.body?.[field] === 'string' ? req.body[field].trim() : ''
+    ]));
+    const price = Number(values.price);
+    if (!values.item_name || !values.category || values.item_name.length > 200 ||
+        values.category.length > 200 || !values.price || !Number.isFinite(price) ||
+        price < 0 || !/^\d+(\.\d{1,2})?$/.test(values.price)) {
+        return res.status(400).render('updates', {
+            title: 'Update Custom Object Form | Integrating With HubSpot I Practicum',
+            values, error: 'Enter an item name, category, and non-negative price with up to two decimal places.'
+        });
+    }
+    try {
+        requireToken();
+        await hubspot.post(objectPath, { properties: values });
+        res.redirect(303, '/');
+    } catch (error) {
+        next(error);
+    }
+});
+
 app.get('/', async (req, res, next) => {
     try {
         requireToken();
